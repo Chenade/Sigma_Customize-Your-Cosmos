@@ -1,0 +1,269 @@
+
+<!-- saved from url=(0043)http://seenjs.io/demo-material-gallery.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style id="stndz-style"></style>
+  <title>Materials gallery | seen.js</title>
+  
+  <link href="./Materials gallery _ seen.js_files/css" rel="stylesheet" type="text/css">
+  
+  <link href="./Materials gallery _ seen.js_files/theme.css" rel="stylesheet" type="text/css">
+  
+  
+  <script src="./Materials gallery _ seen.js_files/seen.min.js"></script>
+  
+  <script src="./Materials gallery _ seen.js_files/coffee-script.min.js"></script>
+  
+</head>
+<body style="">
+  <div class="page">
+    <h1>Materials gallery</h1>
+  
+
+    
+    <canvas width="900" height="500" id="seen-canvas"></canvas>
+    
+
+    <div class="caption">
+    
+		name
+    </div>
+
+    
+
+<script src="./Materials gallery _ seen.js_files/jquery.min.js"></script>
+<script src="./Materials gallery _ seen.js_files/jquery-ui.min.js"></script>
+<link href="./Materials gallery _ seen.js_files/jquery-ui.css" rel="stylesheet" type="text/css">
+
+<style>
+  .parameters-container {
+    padding : 2em 10em;
+  }
+
+  .ui-widget {
+    font-size: 0.8em;
+  }
+
+  h4 {
+    margin-bottom : 4px;
+  }
+
+  h5 {
+    margin-top    : 4px;
+    margin-bottom : 4px;
+  }
+</style>
+
+
+<div class="parameters-container">
+ 
+  <input type="radio" id="shape-sphere" name="shape-radio" value="sphere" checked="checked" class="ui-helper-hidden-accessible">
+  
+
+  <h4>Customize</h4>
+  
+  <h5>elements</h5>
+  <div>
+	  <div id="red_elements" class="ui-buttonset" style="position:relative; float:left;">
+		<input type="checkbox" id="R1" name="red-checkbox" class="ui-helper-hidden-accessible" value="5">
+			<label for="R1" class="ui-state-active ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left" role="button" aria-disabled="false">
+				<span class="ui-button-text">R</span>
+			</label>
+	  </div>
+	  
+	  <div id="red2_elements" class="ui-buttonset"  style="position:relative; float:left;">
+		<input type="checkbox" id="G" name="red2-checkbox" class="ui-helper-hidden-accessible" value="10">
+			<label for="G" class="ui-state-active ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left" role="button" aria-disabled="false">
+				<span class="ui-button-text">G</span>
+			</label>
+	  </div>
+	  
+	  <div id="blue_elements" class="ui-buttonset"  style="position:relative; float:left;">
+		<input type="checkbox" id="B" name="blue-checkbox" class="ui-helper-hidden-accessible" value="10">
+			<label for="B" class="ui-state-active ui-button ui-widget ui-state-default ui-button-text-only ui-corner-left" role="button" aria-disabled="false">
+				<span class="ui-button-text">B</span>
+			</label>
+	  </div>
+  </div>
+  
+  <br><br><hr>
+  
+	<div id="save" class="ui-buttonset">
+	   <input type="button" onclick="save()" value="save">
+	</div>
+  
+  <div id="light-toggles" class="ui-buttonset">
+    <input type="checkbox" id="light-key" name="lights-checkbox" checked="checked" class="ui-helper-hidden-accessible">
+  </div>
+
+   <div id="lighting-model-radios" class="ui-buttonset">
+    <input type="radio" id="model-phong" name="model-radio" value="phong" checked="checked" class="ui-helper-hidden-accessible">
+  </div>
+</div>
+
+<script language="javascript" id="code">
+(function() {
+  var context, dragger, group, height, resizew, scene, shape, shapeFactory, updateHue, updateLightingModel, updateLights, updateMetallic, updateShape, updateShinyness, width, r=5;
+  var red,green=54,blue=134,updatered,updatered2,updateblue,save;
+  
+  red =0;
+
+  width = 900;
+
+  height = 500;
+
+  scene = new seen.Scene({
+    model: seen.Models["default"](),
+    viewport: seen.Viewports.center(width, height)
+  });
+
+  context = seen.Context('seen-canvas', scene).render();
+
+  group = scene.model.append().scale(100);
+
+  shape = null;
+
+  dragger = new seen.Drag(document.getElementById('seen-canvas'), {
+    inertia: true
+  });
+
+  dragger.on('drag.rotate', function(e) {
+    var xform, _ref;
+    xform = (_ref = seen.Quaternion).xyToTransform.apply(_ref, e.offsetRelative);
+    group.transform(xform);
+    return context.render();
+  });
+
+  shapeFactory = function(){
+		
+    return seen.Shapes.sphere(3).scale(2);
+  };
+  
+  updatered = function() {
+  	var redplus = parseFloat(document.getElementById("R1").value);
+	red = parseFloat(red,10);
+	red = red+redplus
+	updateHue();
+	return context.render();
+  };
+  
+   updatered2 = function() {
+  	var plus = parseFloat(document.getElementById("G").value);
+	green = parseFloat(green,10);
+	green = green+plus
+	updateHue();
+	return context.render();
+  };
+  
+  updateblue = function() {
+  	var plus = parseFloat(document.getElementById("B").value);
+	blue = parseFloat(blue,10);
+	blue = blue+plus
+	updateHue();
+	return context.render();
+  };
+  
+  updateHue = function() {
+    var hue, surf, _i, _len, _ref;
+    hue = parseFloat($('#hue-slider').slider('value')) / 100.0;
+    _ref = shape.surfaces;
+	
+		for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      surf = _ref[_i];
+      surf.fillMaterial.color = seen.Colors.rgb(red,green,blue);
+      surf.fillMaterial.specularColor = surf.fillMaterial.color;
+      surf.dirty = true;
+    }
+    return context.render();
+  };
+
+  updateShinyness = function() {
+    var shinyness, surf, _i, _len, _ref;
+    shinyness = 15;
+    _ref = shape.surfaces;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      surf = _ref[_i];
+      surf.fillMaterial.specularExponent = shinyness;
+      surf.dirty = true;
+    }
+    return context.render();
+  };
+
+  updateMetallic = function() {
+    var metallic, surf, _i, _len, _ref;
+    metallic = $('input[name=metallic-radio]:checked').val() === 'yes';
+    _ref = shape.surfaces;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      surf = _ref[_i];
+      surf.fillMaterial.metallic = metallic;
+      surf.dirty = true;
+    }
+    return context.render();
+  };
+
+  updateShape = function(r) {
+    
+    shapeType = $('#shape-sphere').val();
+    group.children = [shape = shapeFactory(r)];
+    updateHue();
+	updateLights();
+    updateShinyness();
+    updateMetallic();
+    return context.render();
+  };
+
+  updateLights = function() {
+    
+	scene.model.lights[0].enabled = true;
+	scene.model.lights[1].enabled = false;
+	scene.model.lights[2].enabled = false;
+	
+	return context.render();
+  };
+
+  updateLightingModel = function() {
+    var shaderType;
+    shaderType = $('#model-phong').val();
+    scene.shader = seen.Shaders[shaderType]();
+    return context.render();
+  };
+
+  save = function(){
+	window.location.replace("save.php?red="+red+"&blue="+blue+"&green="+green);
+  };
+  
+  
+  $(document).ready(function() {
+    $('#shape-radios').buttonset().click(updateShape);
+    $('#hue-slider').slider({
+      slide: updateHue
+    });
+    $('#shinyness-slider').slider().slider({
+      slide: updateShinyness,
+      value: 15,
+      min: 1,
+      max: 60,
+      step: 1
+    });
+    $('#metallic-radios').buttonset().click(updateMetallic);
+    $('#light-toggles').buttonset().click(updateLights);
+    $('#lighting-model-radios').buttonset().click(updateLightingModel);
+	$('#red_elements').buttonset().click(updatered);
+	$('#red2_elements').buttonset().click(updatered2);
+	$('#blue_elements').buttonset().click(updateblue);
+	$('#save').buttonset().click(save);
+	
+	
+	
+    return updateShape();
+  });
+
+}).call(this);
+
+</script>
+  
+
+  
+    
+  </div>
+
+
+</body></html>
