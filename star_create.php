@@ -31,7 +31,7 @@
 	.canvas{
 		
 		position:absolute;
-		left:25vw;
+		left:15vw;
 		top:1.5vh;
 	}
 	
@@ -45,12 +45,12 @@
 	}
 		
 	.HR_chart{
-		background-image:url(img/S1.png);
+		
 		background-size:100% 100%;
 		height:85vh;
 		width:31.25vw;
 		position:absolute;
-		left:68.75vw;
+		left:0vw;
 		top:0vh;
 	}
 	.customize{
@@ -73,9 +73,17 @@
 	}
 	
 	.infor{
+		background-image:url(img/S1.png);
+		background-size:100% 100%;
+		height:85vh;
+		width:31.25vw;
 		position:absolute;
-		left:3vw;
-		top:3vh;
+		left:68.75vw;
+		top:0vh;
+		display:flex;
+		align-items:flex-begin;
+		justify-content:center;
+		flex-direction:column;
 	}
 	.start{
 		width:30vw;
@@ -87,26 +95,30 @@
 	
 	.light{
 		
-		width:120px;
-		height:120px;
+		width:180px;
+		height:160px;
 		z-index:10;
 		position:absolute;
-		left:43vw;
-		top:0vw;
+		left:31vw;
+		top:0vh;
 		
 	}
 	
 	.msgbox{
 		
-		width:650px;
-		height:750px;
-		background-image:url(img/MG.png);
+		background-image:url(img/S1.png);
 		background-size:100% 100%;
+		height:85vh;
+		width:31.25vw;
 		position:absolute;
-		left:50vw;
-		top:10vh;
+		left:68.75vw;
+		top:0vh;
+		display:flex;
+		align-items:flex-begin;
+		justify-content:center;
+		flex-direction:column;
+		z-index:500;
 		display:none;
-		
 	}
 	
   .parameters-container {
@@ -125,6 +137,10 @@
     margin-top    : 4px;
     margin-bottom : 4px;
   }
+  hr{
+	  
+	  width:20vw;
+  }
 </style>
 
 
@@ -138,31 +154,31 @@
 		<div class="customize2"></div>
 		<div class="customize">
 		
-			<p style="color:white; font-size:45px;">decide the quality of your star</p>
+			<p style="color:white; font-size:45px; ">decide the quality of your star</p>
 			
 			<div id="hue-slider" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" style="left:700px; top:-75px;" aria-disabled="false">
-				<a class="ui-slider-handle ui-state-default ui-corner-all" href="http://seenjs.io/demo-material-gallery.html#" style="left: 30%; background-color:black;"></a>
+				<a class="ui-slider-handle ui-state-default ui-corner-all" href="http://seenjs.io/demo-material-gallery.html#" style="left: 23.7288%; transform: scale(7); border:none; background-size:100% 100%; background-color:transparent; background-image:url(img/LOGO2.png);"></a>
 			</div>
 
 		</div>
 		
-		<div align="center" class="HR_chart">
-			<p style="color:white; font-size:35px;">赫羅圖</p>
-			<p style="color:white; font-size:35px;">Hertzsprung-Russel_StarData</p>
-			<input type="image" src="img/Hertzsprung-Russel_StarData.png" style="width:25vw; height:25vw;" onmouseover="light_show()" onmouseout="light_none()">
+		
+		
+		<div class="light" id="bulb_box"><input type="image" id="bulb" class="light" src="img/1-2.png"  onmouseover="light_show()" onmouseout="light_none()"/></div>
+		
+		<div align="center" id="light" class="msgbox">
+			<input type="image" src="img/k1.png" style="width:31.25vw; height:85vh;">
+		
 		</div>
-		
-		<div class="light"><input type="image" class="light" src="img/1-2.png"  onmouseover="light_show()" onmouseout="light_none()"/></div>
-		
-		<div id="light" class="msgbox">
-			
-			
 		
 		</div>
 		
 		<form>
-		<div class="infor">
-			<p id="name" style="color:white; font-size:30px;">Name：<span><input type="text" id="namee" class="text" value="STAR" name="name" autocomplete="off" Required></span></p>
+		<div align="center" class="infor">
+			
+			<p id="name" style="color:white; font-size:30px;">Name：<span><input type="text" id="namee" class="text" placeholder="Please Enter" name="name" autocomplete="off" Required></span></p>
+			<hr>
+			<p style="color:red; font-size:40px;"><strong>Each Parameter</strong></p>
 			<p style="color:white; font-size:30px;">Tempature(Kelvin): <span id="tempature" style="color:white; font-size:30px;">10000</span> </p>
 			<p style="color:white; font-size:30px;">Luminosity: <span id="luminosity" style="color:white; font-size:30px;">1000000</span>  </p>
 			<p style="color:white; font-size:30px;">quality：<span id="radius" style="color:white; font-size:30px;">3</span> *M</p>
@@ -176,23 +192,81 @@
 		<div class="forward">
 			
 			
-			<input type="image" class="start" id="start" src="img/confirm1.png" onclick="forward()" onmouseover="hhover()" onmouseout="nor()"/>
+			<input type="button" class="start" id="start" style="background-image:url(img/confirm1.png); background-color:transparent; background-size:100% 100%; " onclick="forward2()" 	/>
 			
 		</div>
 		
-		<script>
+	</div>
+
+		<script language="javascript">
 		
-		function forward(){
+		function forward2(){
+			
 			var a = document.getElementById("namee").value;
 			var b = document.getElementById("radius").innerHTML;
 			var c = document.getElementById("hue").innerHTML;
 			var d = document.getElementById("l").innerHTML;
+			var e = 0.5;
+			var f = document.getElementById("luminosity").innerHTML;
+			var g = document.getElementById("tempature").innerHTML;
+			var h = document.getElementById("lifetime").innerHTML;
 			
-			window.location.assign("star_save.php?name=" + a + "&radius=" + b + "&R=" + c + "&G=" + d + "&B=0.5");
+			var aaa = hsltorgb(c,d,e);
+			
+			function hsltorgb(h,s,l){
+				var h=h/360;
+				var s=s/100;
+				var l=l/100;
+				var rgb=[];
+
+				if(s==0){
+					rgb=[Math.round(l*255),Math.round(l*255),Math.round(l*255)];
+				}else{
+					var q=l>=0.5?(l+s-l*s):(l*(1+s));
+					var p=2*l-q;
+					var tr=rgb[0]=h+1/3;
+					var tg=rgb[1]=h;
+					var tb=rgb[2]=h-1/3;
+					for(var i=0; i<rgb.length;i++){
+						var tc=rgb[i];
+						console.log(tc);
+						if(tc<0){
+							tc=tc+1;
+						}else if(tc>1){
+							tc=tc-1;
+						}
+						switch(true){
+							case (tc<(1/6)):
+								tc=p+(q-p)*6*tc;
+								break;
+							case ((1/6)<=tc && tc<0.5):
+								tc=q;
+								break;
+							case (0.5<=tc && tc<(2/3)):
+								tc=p+(q-p)*(4-6*tc);
+								break;
+							default:
+								tc=p;
+								break;
+						}
+						rgb[i]=Math.round(tc*255);
+					}
+				}
+				
+				return rgb;
+			}
+			
+			
+			alert(aaa);
+			
+			window.location.assign("star_save.php?name=" + a + "&radius=18" + "&R=204" + "&G=55" + "&B=0.5"+ "&tempature="+ g +  "&luminosity=" + f + "&lifetime=" +h);
 		}
 		
 		
-		
+		function big(){
+			var a = document.getElementById("bulb_box").style="transform:scale(2);";
+			
+		}
 		
 		function light_show(){
 			var a = document.getElementById("light").style="display:inline;";
@@ -204,8 +278,6 @@
 		
 		</script>
 		
-	</div>
-	
     
     
 

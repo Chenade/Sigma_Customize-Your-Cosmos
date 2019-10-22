@@ -156,8 +156,8 @@
 			<p style="font-size:36px; line-height:30px;">terrestrial_planet</p>
 			<hr>
 			<div style="display:flex; flex-direction:center;flex-wrap: wrap; justify-content:center; align-items:center;">
-				<div style="margin:20px;"><img src="img/p1.png" style="width:300px; " ></div>
-				<div style="margin:20px;"><img src="img/p2.png" style="width:300px; " ></div>
+				<div style="margin:20px;"><img src="img/Z6.png" style="width:300px; " ></div>
+				<div style="margin:20px;"><img src="img/Z1.png" style="width:300px; " ></div>
 				<div style="margin:20px;"><img src="img/p3.png" style="width:300px; " ></div>
 				<div style="margin:20px;"><img src="img/p4.png" style="width:300px; " ></div>
 			</div>
@@ -169,21 +169,22 @@
 			<hr>
 			<div style="display:flex; flex-direction:center;flex-wrap: wrap; justify-content:center; align-items:center;">
 				<div style="margin:20px;"><img src="img/p5.png" style="width:300px; " ></div>
-				<div style="margin:20px;"><img src="img/p6.png" style="width:300px; " ></div>
-				<div style="margin:20px;"><img src="img/p7.png" style="width:300px; " ></div>
-				<div style="margin:20px;"><img src="img/p8.png" style="width:300px; " ></div>
+				<div style="margin:20px;"><img src="img/Z4.png" style="width:300px; " ></div>
+				<div style="margin:20px;"><img src="img/Z5.png" style="width:300px; " ></div>
+				<div style="margin:20px;"><img src="img/Z2.png" style="width:300px; " ></div>
 			</div>
 		</div>
 		
 		<div align="center" id="terrestrial_planet2" class="terrestrial_planet">
-			<p style="font-size:40px; line-height:40px;">類地行星 (terrestrial_planet)</p>
+			<p style="font-size:40px; line-height:60px;">類地行星 (Terrestrial Planet)</p>
 			<hr><br>
 			
 			<div class="container2">
 				
-				<div style="flex: 0 0 33.3333%;"> <img src="img/earth1.png" style="width:350px; " ></div>
-				<div style="width:600px;"><p style="font-size:30px; line-height:30px;">類地行星（terrestrial planet），又稱岩石行星（rocky planet）是指以矽酸鹽岩石為主要成分的行星
-中央是以鐵為主，且大部分為金屬的核心，圍繞在周圍的是以矽酸鹽為主的地凾，類地行星的大氣層都為再生大氣層</p></div>
+				<div style="flex: 0 0 33.3333%;"> <img src="img/earth1.png" style="width:500px; " ></div>
+				<div style="width:650px;"><p style="font-size:30px; line-height:60px;">The inner Solar System, the region of the Solar System inside 4 AU, 
+				was too warm for volatile molecules to condense, so the planetesimals that formed there could only form from compounds with high melting 
+				points, and these rocky bodies would become the terrestrial planets, also called rocky planets.</p></div>
 				
 			</div>
 			
@@ -193,13 +194,16 @@
 		</div>
 		
 		<div align="center" id="jovian_planet2" class="jovian_planet">
-			<p style="font-size:36px; line-height:30px;">類木行星 (jovian_planet)</p>
+			<p style="font-size:36px; line-height:60px;">類木行星 (Jovian Planet)</p>
 			<hr><br>
 			
 			<div class="container2">
 				
-				<div style="flex: 0 0 33.3333%;"> <img src="img/earth1.png" style="width:350px; " ></div>
-				<div style="width:600px;"><p>rtdfghnlmkkjhv</p></div>
+				<div style="flex: 0 0 33.3333%;"> <img src="img/Z4.png" style="width:500px; " ></div>
+				<div style="width:750px;"><p style="font-size:30px; line-height:60px;">When the terrestrial planets were forming, they remained immersed in a
+				disk of gas and dust. The gas was partially supported by pressure and so did not orbit the Sun as rapidly as the planets. The Jovian planets 
+				formed further out, beyond the fost line, which is the point between the orbits of Mars and Jupiter where the material is cool enough for
+				volatile icy compounds to remain solid.  Today, the Jovian planet comprise just under 99% of all the mass orbiting the Sun.</p></div>
 				
 			</div>
 			

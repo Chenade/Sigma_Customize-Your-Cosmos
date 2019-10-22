@@ -8,6 +8,24 @@
 	<script src="/gg_bd_ad_720x90.js" type="text/javascript"></script>
 	<script src="/follow.js" type="text/javascript"></script>
 	
+<style>
+
+	.start2{
+		width:400px;
+		height:350px;
+		position:absolute;
+		left:75vw;
+		top:60vh;
+	}
+	.start3{
+		
+		position:absolute;
+		
+		top:1vh;
+	}
+
+</style>
+
 
 </head>
 
@@ -25,8 +43,8 @@
 	<script  src="js/index.js"></script>
 	
 	
-	
-	<input type="image" class="start" src="img/play1.png" alt="send" name="start" id="start" onclick="send()" onmouseover="hhover()" onmouseout="nor()"/>
+	<input type="image" class="start3" src="img/LOGO6.png" alt="send" />
+	<input type="image" class="start2" src="img/LOGO4.png" alt="send" name="start" id="start" onclick="send()" onmouseover="hhover()" onmouseout="nor()"/>
 	
 	
 </body>
@@ -43,11 +61,11 @@ function send(){
 
 function hhover(){
 	var a = document.getElementById("start");
-	a.src="img/play22.png";
+	a.src="img/STA3.png";
 }
 
 function nor(){
 	var a = document.getElementById("start");
-	a.src="img/play1.png";
+	a.src="img/LOGO4.png";
 }
 </script>

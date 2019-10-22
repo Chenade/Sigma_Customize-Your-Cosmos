@@ -31,14 +31,16 @@
 	.canvas2{
 		
 		position:absolute;
-		left:1450px;
+		left:600px;
 		top:30vh;
 	}
 	
 	.star{
 		position:absolute;
-		left:-500px;
-		top :20px;
+		left:-600px;
+		top :-150px;
+		width:1200px;
+		height:1200px;
 		
 	}
 	
@@ -149,8 +151,9 @@
 			<div id="target"><canvas width="200" height="200" id="seen-canvas" class="canvas2"></canvas></div>
 			<div id="target2"><canvas width="900" height="900" id="star" class="star"></canvas></div>
 				
+			<img src="img/123.png" class="star" style="x-index:5000;">
 			<div><p style="color:white; font-size:48px; margin:50px; cellpadding:15px; position:absolute; left:550px; top:630px;">DISTANCES：
-				<span id="dis">3<span> <span>AU</span>
+				<span id="dis">3</span> <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AU</span>
 			</p>
 			
 			</div>
@@ -167,7 +170,7 @@
 			
 			
 			<div align="center" style="width:70vw; height:15vh; display:flex; flex-direction:row; align-items:center; background-image:url(img/R1.png); background-size:100% 100%;" >	
-				<div><p style="color:white; font-size:48px; margin:50px; cellpadding:15px;"><span>VELOCITY</span><span id="vel" >speed=0</span></p></div>
+				<div><p style="color:white; font-size:48px; margin:50px; cellpadding:15px;"><span>VELOCITY</span><span id="vel" style="display:none;" >speed=0</span></p></div>
 				<div id="shinyness-slider" style="width:50vw;" class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" aria-disabled="false">
 				<a class="ui-slider-handle ui-state-default ui-corner-all" href="http://seenjs.io/demo-material-gallery.html#" style="left: 23.7288%; transform: scale(5) rotate(180deg); border:none; background-size:100% 100%; background-color:transparent; background-image:url(img/S2.png);"></a></div>
 			<div>
@@ -176,21 +179,31 @@
 			
 		<div class="forward">
 			
-			<input type="image" class="start" id="start" src="img/confirm1.png" onclick="forward()" onmouseover="hhover()" onmouseout="nor()"/>
+			<input type="button" class="start" id="start" style="background-image:url(img/confirm1.png); background-color:transparent; background-size:100% 100%; " onclick="forward2()" 	/>
 			
-			<script>
-				function forward(){
-					var a = document.getElementById('vel').innerHTML;
-					window.location.assign("place_save.php?state=" + a;);
-				}
-			</script>
+			
 		</div>
 		
 	</div>
 	
-    
+    <script  language="javascript" >
+				function forward2(){
+					var v = document.getElementById("dis").innerHTML;
+					
+					var aaa = "place_save.php?id=" + <?php echo $_GET['id']?> + "&place=" + v + "&speed=5";
+					window.location.assign(aaa);
+				}
+	</script>
 	
+<?php
 
+	$con = mysqli_connect("localhost","root","","nasa") or die("connect failed");
+	$db = mysqli_select_db($con,"planet");
+	$sql = "SELECT * FROM `planet` WHERE `id` = " . $_GET['id'];
+	$run = mysqli_query($con,$sql);
+	$row =mysqli_fetch_array($run);
+	echo $row['id'];
+?>
 
 <script language="javascript" id="code">
 (function() {
@@ -239,7 +252,7 @@
 	
 	for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       surf = _ref[_i];
-      surf.fillMaterial.color = seen.Colors.rgb(red,green,blue);
+      surf.fillMaterial.color = seen.Colors.rgb(<?php echo $row['R']; ?>,<?php echo $row['G']; ?>,<?php echo $row['B']; ?>);
       surf.fillMaterial.specularColor = surf.fillMaterial.color;
       surf.dirty = true;
     }
@@ -304,10 +317,16 @@
 	var T_L = document.getElementById("seen-canvas").style.left = move;
 	
 	//alert("move");
+	
+	var q = "place.php?id=" + <?php echo $row['id'];?>;
+	
+	
+	
 	var move = parseFloat($('#hue-slider').slider('value'))+450 ;
 	if(move<715){var au = 2.5 * move/265-992.5/265;}
-	else{var au = 27* move/1335-15300/1335;}
-	var aa = document.getElementById("dis").innerHTML=Math.round(au*100)/100+"AU";
+	
+	else{alert("類地行星不得距離恆星超過3AU"); window.location.assign(q);}
+	var aa = document.getElementById("dis").innerHTML=Math.round(au*100)/10;
 	
 	
 	//alert(T_L);
@@ -319,14 +338,16 @@
 	var state="normal";
 	var vell = parseFloat($('#shinyness-slider').slider('value')) ;
 	//alert(vell);
-	if(vell > 30){
-		if(confirm("速度過快，有極大的可能性將脫離軌道，請問是否重新設定")){
-			window.location.replace("place.php");
-		}else{
-			state="fly-out";
-		}
 	
-	}
+	var q = "place.php?id=" + <?php echo $row['id'];?>;
+		if(vell > 30){
+			if(confirm("速度過快，有極大的可能性將脫離軌道，請問是否重新設定")){
+				window.location.replace(q);
+			}else{
+				state="fly-out";
+			}
+		}
+			
 	var c = document.getElementById("vel").innerHTML="speed=" + vell + "&state=" + state;
 	
 	
@@ -338,7 +359,7 @@
     $('#shape-radios').buttonset().click(updateShape);
     $('#hue-slider').slider({
       slide: update_position,
-	  value: 1000,
+	  value: 100,
       min: 1,
       max: 1600,
       step: 1
@@ -366,135 +387,5 @@
 </script>
   
 
-
-<script language="javascript" id="code">
-(function() {
-  var context, dragger, group, height, resizew, scene, shape, shapeFactory, updateHue, updateLightingModel, updateLights, updateMetallic, updateShape, updateShinyness, width, r=5;
-  var red,green=54,blue=134,updatered,updatered2,updateblue,save,updatequality;
-  
-  red =0;
-
-  width = 900;
-
-  height = 900;
-
-  scene = new seen.Scene({
-    model: seen.Models["default"](),
-    viewport: seen.Viewports.center(width, height)
-  });
-
-  context = seen.Context('star', scene).render();
-
-  group = scene.model.append().scale(100);
-
-  shape = null;
-
-  dragger = new seen.Drag(document.getElementById('star'), {
-    inertia: true
-  });
-
-  dragger.on('drag.rotate', function(e) {
-    var xform, _ref;
-    xform = (_ref = seen.Quaternion).xyToTransform.apply(_ref, e.offsetRelative);
-    group.transform(xform);
-    return context.render();
-  });
-
-  shapeFactory = function(){
-		
-    return seen.Shapes.sphere(3).scale(4);
-  };
-  
-  
-  updateHue = function() {
-    
-	var hue, surf, _i, _len, _ref,l=0.5;
-    hue = parseFloat($('#hue-slider').slider('value')) / 100.0;
-    _ref = shape.surfaces;
-	
-	for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      surf = _ref[_i];
-      surf.fillMaterial.color = seen.Colors.rgb(red,green,blue);
-      surf.fillMaterial.specularColor = surf.fillMaterial.color;
-      surf.dirty = true;
-    }
-    return context.render();
-  };
-
-  updateShinyness = function() {
-	// alert("45");
-    var shinyness, surf, _i, _len, _ref;
-    shinyness = 15;
-    _ref = shape.surfaces;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      surf = _ref[_i];
-      surf.fillMaterial.specularExponent = shinyness;
-      surf.dirty = true;
-    }
-    return context.render();
-  };
-
-  updateMetallic = function() {
-    var metallic, surf, _i, _len, _ref;
-    metallic = $('input[name=metallic-radio]:checked').val() === 'yes';
-    _ref = shape.surfaces;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      surf = _ref[_i];
-      surf.fillMaterial.metallic = metallic;
-      surf.dirty = true;
-    }
-    return context.render();
-  };
-
-  updateShape = function(r) {
-    
-    shapeType = $('#shape-sphere').val();
-    group.children = [shape = shapeFactory(r)];
-    updateHue();
-	updateLights();
-    updateShinyness();
-    updateMetallic();
-    return context.render();
-  };
-
-  updateLights = function() {
-    
-	scene.model.lights[0].enabled = true;
-	scene.model.lights[1].enabled = false;
-	scene.model.lights[2].enabled = false;
-	
-	return context.render();
-  };
-
-  updateLightingModel = function() {
-    var shaderType;
-    shaderType = $('#model-phong').val();
-    scene.shader = seen.Shaders[shaderType]();
-    return context.render();
-  };
-  
-
-  
-  $(document).ready(function() {
-   
-    
-	$('#save').buttonset().click(save);
-	
-	
-	
-    return updateShape();
-  });
-
-}).call(this);
-
-
-
-
-</script>
-  
-  
-
-    
-  
 
 </body></html>

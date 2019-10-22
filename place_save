@@ -1,0 +1,10 @@
+<?php
+
+	$con = mysqli_connect("localhost","root","","nasa") or die("failed");
+	
+	$sql = "UPDATE `planet` SET `alive`='true' WHERE `id` = 4";
+	echo $sql;
+	mysqli_query($con,$sql);
+	
+	header("Location:main.php");
+?>

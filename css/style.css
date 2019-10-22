@@ -13,10 +13,10 @@ html, body {
   height: 100%;
 }  
 .start{
-	width : 200px;
-	height : 200px;
+	width : 450px;
+	height : 450px;
 	position:absolute;
-	left:80vw;
+	left:70vw;
 	top:60vh;
 	
   }

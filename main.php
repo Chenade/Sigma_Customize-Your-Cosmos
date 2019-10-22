@@ -47,6 +47,11 @@
 		width:28vw;
 		background-image:url(img/S1.png);
 		background-size:100% 105%;
+		z-index:500;
+		display:flex;
+		flex-direction:column;
+		justify-content:center;
+		align-items:center;
 		
 	}
 	
@@ -74,6 +79,11 @@
 		margin-top    : 4px;
 		margin-bottom : 4px;
 	  }
+	  p{
+		  color:white;
+		  font-size:30px;
+		  
+	  }
   
   
     .control{
@@ -81,6 +91,7 @@
 	  top:90vh;
 	  height:10vh;
 	  width:100vw;
+	  z-index:500;
 	  
 	}
   
@@ -135,12 +146,16 @@
 		
 		<div class="information" align="center">
 			
-			<p>information</p>
+			<p style="color:red; font-size:40px;"><strong>information</strong></p>
 			
-			<p><span>種類</span><span id="in_cat">star</span></p>
+			<p><span>Name：</span><span id="name"></span></p>
+			<p><span>Category：</span><span id="Category"></span></p>
+			<p><span>Mass：</span><span id="Mass"></span></p>
+			<p><span>Gravity：</span><span id="Gravity"></span></p>
+			<p><span>Distance：</span><span id="Distance"></span></p>
+			<p><span>Teampature：</span><span id="Teampature"></span></p>
+			<p><span>LifeTime：</span><span id="LifeTime"></span></p>
 			
-		
-		
 		</div>
 		
 		<div class="control">
@@ -153,13 +168,13 @@
 		
 		<script>
 			function place(){
-				window.location.assign("place.php");
+				window.location.assign("place_choose.php");
 			}
 			function create(){
 				window.location.assign("planet_create.php");
 			}
 			function finish(){
-				window.location.assign("finish.php");
+				window.location.assign("io.html");
 			}
 		</script>
 	
@@ -171,7 +186,7 @@
 	
 	$con = mysqli_connect("localhost","root","","nasa") or die("connect failed");
 	$db = mysqli_select_db($con,"planet");
-	$sql = "SELECT * FROM `planet` WHERE `alive` = 'true'";
+	$sql = "SELECT * FROM `planet` WHERE `alive` = 'true' ";
 	$run = mysqli_query($con,$sql);
 	
 	echo '<script language="javascript">;';		
@@ -196,16 +211,18 @@
 		if ($row['id']!="1"){
 		if($row['state']=="normal"){
 			//正常軌跡
+			
 			$abc =  $abc.'
 					var i = 0;
-					
+					var sss = Math.random(5,30);
 					 setInterval(function(){
-						
+						var sss = Math.random(5,30);
 						var w = document.documentElement.clientWidth ; 
 						var h = document.documentElement.clientHeight;
 						w = w/2+220;
 						h = h/2-150;
-						r=250;
+						
+						r= '.$row['radius'].' * 28;
 						
 						var a = i,b=w,c=h,d=r;
 						
@@ -214,7 +231,7 @@
 							
 						}
 						
-					, 20);
+					,20);
 				
 			function update'.$row["id"].'(i,h,k,r){ 
 				var j = i % 360;
@@ -228,16 +245,16 @@
 				
 				vv+=1;
 			';
-		}else{
+		}elseif ($row['state']=="normal"){
 			//飛出去 setInterval(fly_out,1000);
 			$abc =  $abc. '
-				var xxx = document.getElementById("dd'.$row['id'].'").style.left="1420px";
+				var xxx = document.getElementById("dd'.$row['id'].'").style.left="1300px";
 				setInterval(fly_out,1);
 				
 				function fly_out(){	
 					move(".dd'.$row['id'].'")
 					.rotate(1080).translate(1300).rotate(0).scale(.5)
-					.duration("5s")
+					.duration("10s")
 					.then()
 						.set("opacity", 0)
 						.set("display","none")
@@ -284,9 +301,11 @@
 			group.transform(xform);
 			return context.render();
 		  });
-
+			
 		  shapeFactory = function(){
-			return seen.Shapes.sphere(3).scale(0.5);
+			  var x = '.$row['radius'].' / 30;
+			  
+			return seen.Shapes.sphere(3).scale(x);
 		  };
 		  
 		  
